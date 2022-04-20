@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
 
 export type LoginScreenProps = NativeStackScreenProps<

@@ -11,35 +11,6 @@ export type WelcomeScreenProps = NativeStackScreenProps<
   'Welcome'
 >;
 
-const Container = styled.View`
-  flex: 1;
-  background-color: black;
-  justify-content: center;
-  align-items: center;
-  padding: 0 40px;
-`;
-
-const Logo = styled.Image`
-  max-width: 50%;
-  height: 100px;
-`;
-
-const CreateAccount = styled.TouchableOpacity<{ disabled: boolean }>`
-  background-color: ${colors.blue};
-  padding: 10px;
-  border-radius: 3px;
-  width: 100%;
-  margin-top: 20px;
-  opacity: ${(props) => (props.disabled ? '0.5' : '1')};
-`;
-
-const CreateAccountText = styled.Text`
-  color: white;
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-`;
-
 const LoginLink = styled.Text`
   color: ${colors.blue};
   font-weight: 600;
@@ -52,11 +23,9 @@ const Welcome = ({ navigation }: WelcomeScreenProps) => {
   const goToLogin = () => navigation.navigate('Login');
   return (
     <AuthLayout>
-      <AuthButton
-        text="계정 만들기"
-        onPress={goToCreateAccount}
-        disabled={false}
-      />
+      <TouchableOpacity onPress={goToCreateAccount}>
+        <AuthButton text="계정 만들기" />
+      </TouchableOpacity>
       <TouchableOpacity onPress={goToLogin}>
         <LoginLink>로그인</LoginLink>
       </TouchableOpacity>

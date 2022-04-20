@@ -54,7 +54,7 @@ const CreateAccount = () => {
         returnKeyType="done"
         style={{ backgroundColor: 'white', width: '100%' }}
       />
-      <AuthButton text="계정 생성" disabled={true} onPress={() => null} />
+      <AuthButton text="계정 생성" />
     </AuthLayout>
   );
 };

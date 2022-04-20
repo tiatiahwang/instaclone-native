@@ -1,8 +1,7 @@
-import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { colors } from '../../colors';
 
-const Button = styled.TouchableOpacity<{ disabled?: boolean }>`
+const Button = styled.View<{ disabled?: boolean }>`
   background-color: ${colors.blue};
   padding: 13px 10px;
   border-radius: 3px;
@@ -16,15 +15,13 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 
-interface Props extends TouchableOpacity {
-  disabled?: boolean;
+interface Props {
   text: string;
-  onPress: () => void;
 }
 
-const AuthButton = ({ disabled, onPress, text, ...props }: Props) => {
+const AuthButton = ({ text }: Props) => {
   return (
-    <Button disabled={disabled} onPress={onPress}>
+    <Button>
       <ButtonText>{text}</ButtonText>
     </Button>
   );

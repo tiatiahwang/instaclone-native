@@ -23,7 +23,10 @@ const Welcome = ({ navigation }: WelcomeScreenProps) => {
   const goToLogin = () => navigation.navigate('Login');
   return (
     <AuthLayout>
-      <TouchableOpacity onPress={goToCreateAccount}>
+      <TouchableOpacity
+        containerStyle={{ width: '100%' }}
+        onPress={goToCreateAccount}
+      >
         <AuthButton text="계정 만들기" />
       </TouchableOpacity>
       <TouchableOpacity onPress={goToLogin}>

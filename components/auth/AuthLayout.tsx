@@ -30,6 +30,7 @@ const AuthLayout = ({ children }: Props) => {
     <TouchableWithoutFeedback
       style={{ height: '100%' }}
       onPress={dismissKeyboard}
+      disabled={Platform.OS === 'web'}
     >
       <Container behavior={Platform.OS == 'android' ? undefined : 'padding'}>
         <Logo resizeMode="contain" source={require('../../assets/logo.png')} />

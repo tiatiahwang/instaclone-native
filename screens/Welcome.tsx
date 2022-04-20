@@ -2,6 +2,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { colors } from '../colors';
+import AuthButton from '../components/auth/AuthButton';
+import AuthLayout from '../components/auth/AuthLayout';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
 
 export type WelcomeScreenProps = NativeStackScreenProps<
@@ -14,6 +16,7 @@ const Container = styled.View`
   background-color: black;
   justify-content: center;
   align-items: center;
+  padding: 0 40px;
 `;
 
 const Logo = styled.Image`
@@ -21,22 +24,26 @@ const Logo = styled.Image`
   height: 100px;
 `;
 
-const CreateAccount = styled.View`
+const CreateAccount = styled.TouchableOpacity<{ disabled: boolean }>`
   background-color: ${colors.blue};
-  padding: 7px 10px;
+  padding: 10px;
   border-radius: 3px;
+  width: 100%;
+  margin-top: 20px;
+  opacity: ${(props) => (props.disabled ? '0.5' : '1')};
 `;
 
 const CreateAccountText = styled.Text`
   color: white;
   font-weight: 600;
   font-size: 16px;
+  text-align: center;
 `;
 
 const LoginLink = styled.Text`
   color: ${colors.blue};
   font-weight: 600;
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 16px;
 `;
 
@@ -44,17 +51,16 @@ const Welcome = ({ navigation }: WelcomeScreenProps) => {
   const goToCreateAccount = () => navigation.navigate('CreateAccount');
   const goToLogin = () => navigation.navigate('Login');
   return (
-    <Container>
-      <Logo resizeMode="contain" source={require('../assets/logo.png')} />
-      <TouchableOpacity onPress={goToCreateAccount}>
-        <CreateAccount>
-          <CreateAccountText>계정 만들기</CreateAccountText>
-        </CreateAccount>
-      </TouchableOpacity>
+    <AuthLayout>
+      <AuthButton
+        text="계정 만들기"
+        onPress={goToCreateAccount}
+        disabled={false}
+      />
       <TouchableOpacity onPress={goToLogin}>
         <LoginLink>로그인</LoginLink>
       </TouchableOpacity>
-    </Container>
+    </AuthLayout>
   );
 };
 

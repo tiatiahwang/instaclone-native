@@ -18,7 +18,13 @@ const LoggedOutNav = () => {
         headerBackTitleVisible: false,
       }}
     >
-      <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />
     </Stack.Navigator>

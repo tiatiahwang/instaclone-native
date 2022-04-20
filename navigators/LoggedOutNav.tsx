@@ -3,13 +3,13 @@ import Welcome from '../screens/Welcome';
 import Login from '../screens/Login';
 import CreateAccount from '../screens/CreateAccount';
 
-type ParamList = {
+export type LoggedOutNavParamList = {
   Welcome: undefined;
   Login: undefined;
   CreateAccount: undefined;
 };
 
-const Stack = createNativeStackNavigator<ParamList>();
+const Stack = createNativeStackNavigator<LoggedOutNavParamList>();
 
 const LoggedOutNav = () => {
   return (

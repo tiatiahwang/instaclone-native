@@ -32,6 +32,7 @@ const CreateAccount = () => {
     <AuthLayout>
       <Controller
         control={control}
+        rules={{ required: true }}
         name="firstName"
         render={({ field: { onChange, value } }) => (
           <Input
@@ -62,6 +63,7 @@ const CreateAccount = () => {
       />
       <Controller
         control={control}
+        rules={{ required: true }}
         name="username"
         render={({ field: { onChange, value } }) => (
           <Input
@@ -78,6 +80,7 @@ const CreateAccount = () => {
       />
       <Controller
         control={control}
+        rules={{ required: true }}
         name="email"
         render={({ field: { onChange, value } }) => (
           <Input
@@ -95,7 +98,8 @@ const CreateAccount = () => {
       />
       <Controller
         control={control}
-        name="email"
+        rules={{ required: true }}
+        name="password"
         render={({ field: { onChange, value } }) => (
           <Input
             ref={passwordRef}

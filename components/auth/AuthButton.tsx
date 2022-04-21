@@ -1,3 +1,4 @@
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 import { colors } from '../../colors';
 
@@ -13,16 +14,22 @@ const ButtonText = styled.Text`
   color: white;
   font-weight: 600;
   text-align: center;
+  font-size: 16px;
 `;
 
 interface Props {
   text: string;
+  isLoading?: boolean;
 }
 
-const AuthButton = ({ text }: Props) => {
+const AuthButton = ({ text, isLoading }: Props) => {
   return (
     <Button>
-      <ButtonText>{text}</ButtonText>
+      {isLoading ? (
+        <ActivityIndicator color="white" />
+      ) : (
+        <ButtonText>{text}</ButtonText>
+      )}
     </Button>
   );
 };

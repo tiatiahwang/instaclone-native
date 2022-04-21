@@ -8,6 +8,8 @@ import * as Font from 'expo-font';
 import LoggedOutNav from './navigators/LoggedOutNav';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components/native';
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -31,15 +33,17 @@ export default function App() {
       />
     );
   }
-  const subscription = Appearance.addChangeListener(({ colorScheme }) =>
-    console.log(colorScheme),
-  );
-  const light = Appearance.getColorScheme();
+  // const subscription = Appearance.addChangeListener(({ colorScheme }) =>
+  //   console.log(colorScheme),
+  // );
+  // const light = Appearance.getColorScheme();
   return (
     // <ThemeProvider theme={light ? lightTheme : darkTheme}>
-    <NavigationContainer>
-      <LoggedOutNav />
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <LoggedOutNav />
+      </NavigationContainer>
+    </ApolloProvider>
     // </ThemeProvider>
   );
 }

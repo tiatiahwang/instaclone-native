@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
@@ -16,6 +17,7 @@
     "expo-asset": "^8.4.6",
     "expo-font": "^10.0.5",
     "expo-status-bar": "~1.2.0",
+    "graphql": "^16.3.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^7.30.0",

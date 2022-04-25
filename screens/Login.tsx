@@ -9,19 +9,21 @@ import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
 import { useLoginMutation } from '../graphql/generated';
-
-export type LoginScreenProps = NativeStackScreenProps<
-  LoggedOutNavParamList,
-  'Login'
->;
+import { LoginScreenProps } from '../navTypes';
 
 interface IForm {
   username: string;
   password: string;
 }
 
-const Login = ({ navigation }: LoginScreenProps) => {
-  const { control, handleSubmit, watch } = useForm<IForm>();
+const Login = ({
+  route: {
+    params: { username = '', password = '' },
+  },
+}: LoginScreenProps) => {
+  const { control, handleSubmit, watch } = useForm<IForm>({
+    defaultValues: { username, password },
+  });
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 

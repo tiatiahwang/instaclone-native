@@ -5,11 +5,7 @@ import { colors } from '../colors';
 import AuthButton from '../components/auth/AuthButton';
 import AuthLayout from '../components/auth/AuthLayout';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
-
-export type WelcomeScreenProps = NativeStackScreenProps<
-  LoggedOutNavParamList,
-  'Welcome'
->;
+import { WelcomeScreenProps } from '../navTypes';
 
 const LoginLink = styled.Text`
   color: ${colors.blue};

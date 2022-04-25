@@ -5,6 +5,8 @@ import { TextInput } from 'react-native';
 import AuthButton from '../components/auth/AuthButton';
 import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
+import { useCreateAccountMutation } from '../graphql/generated';
+import { CreateAccountScreenProps } from '../navTypes';
 
 interface IForm {
   firstName: string;
@@ -14,8 +16,9 @@ interface IForm {
   password: string;
 }
 
-const CreateAccount = () => {
-  const { control, handleSubmit } = useForm<IForm>();
+const CreateAccount = ({ navigation }: CreateAccountScreenProps) => {
+  const { control, handleSubmit, getValues } = useForm<IForm>();
+  const [createAccountMutation, { loading }] = useCreateAccountMutation();
 
   const lastNameRef = useRef(null);
   const usernameRef = useRef(null);
@@ -25,7 +28,15 @@ const CreateAccount = () => {
   const onNext = (next: React.RefObject<TextInput>) => next.current?.focus();
 
   const onValid: SubmitHandler<IForm> = (data) => {
-    console.log(data);
+    if (loading) return;
+    createAccountMutation({
+      variables: data,
+      onCompleted: ({ createAccount }) => {
+        if (!createAccount.ok) return;
+        const { username, password } = getValues();
+        navigation.navigate('Login', { username, password });
+      },
+    });
   };
 
   return (
@@ -118,7 +129,7 @@ const CreateAccount = () => {
         containerStyle={{ width: '100%' }}
         onPress={handleSubmit(onValid)}
       >
-        <AuthButton text="계정 생성" />
+        <AuthButton text="계정 생성" isLoading={loading} />
       </TouchableOpacity>
     </AuthLayout>
   );

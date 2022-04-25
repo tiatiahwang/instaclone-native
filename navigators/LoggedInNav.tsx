@@ -1,12 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Feed from '../screens/Feed';
-import Notifications from '../screens/Notifications';
-import Profile from '../screens/Profile';
-import Search from '../screens/Search';
 import TabIcons from '../components/nav/TabIcon';
 import { View } from 'react-native';
-import Me from '../screens/Me';
-import StackNavFactory from '../components/nav/StackNavFactory';
+import SharedStackNav from './SharedStackNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +19,7 @@ const LoggedInNav = () => {
       }}
     >
       <Tab.Screen
-        name="Feed"
+        name="FeedTab"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
@@ -37,10 +32,10 @@ const LoggedInNav = () => {
           ),
         }}
       >
-        {() => <StackNavFactory name="Feed" />}
+        {() => <SharedStackNav screenName="Feed" />}
       </Tab.Screen>
       <Tab.Screen
-        name="Search"
+        name="SearchTab"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
@@ -53,10 +48,10 @@ const LoggedInNav = () => {
           ),
         }}
       >
-        {() => <StackNavFactory name="Search" />}
+        {() => <SharedStackNav screenName="Search" />}
       </Tab.Screen>
       <Tab.Screen
-        name="Camera"
+        name="CameraTab"
         component={View}
         options={{
           tabBarIcon: ({ color, focused }) => (
@@ -71,7 +66,7 @@ const LoggedInNav = () => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
+        name="NotificationsTab"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
@@ -84,10 +79,10 @@ const LoggedInNav = () => {
           ),
         }}
       >
-        {() => <StackNavFactory name="Notifications" />}
+        {() => <SharedStackNav screenName="Notifications" />}
       </Tab.Screen>
       <Tab.Screen
-        name="Me"
+        name="MeTab"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabIcons
@@ -100,7 +95,7 @@ const LoggedInNav = () => {
           ),
         }}
       >
-        {() => <StackNavFactory name="Me" />}
+        {() => <SharedStackNav screenName="Me" />}
       </Tab.Screen>
     </Tab.Navigator>
   );

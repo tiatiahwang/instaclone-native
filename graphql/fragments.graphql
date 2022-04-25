@@ -1,0 +1,17 @@
+fragment PhotoFragment on Photo {
+  id
+  file
+  likes
+  commentNumber
+}
+
+fragment CommentFragment on Comment {
+  id
+  payload
+  isMine
+  createdAt
+  user {
+    username
+    avatar
+  }
+}

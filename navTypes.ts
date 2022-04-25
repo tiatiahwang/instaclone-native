@@ -33,11 +33,11 @@ export type TabsNavScreenProps = NativeStackScreenProps<
 >;
 
 export type TabsNavParamList = {
-  Feed: undefined;
-  Search: undefined;
-  Camera: undefined;
-  Notifications: undefined;
-  Me: undefined;
+  FeedTab: undefined;
+  SearchTab: undefined;
+  CameraTab: undefined;
+  NotificationsTab: undefined;
+  MeTab: undefined;
 };
 
 export type SharedNavParamList = {
@@ -46,6 +46,7 @@ export type SharedNavParamList = {
   Notifications: undefined;
   Me: undefined;
   Photo: undefined;
+  Profile: undefined;
 };
 
 export type FeedScreenProps = CompositeScreenProps<
@@ -66,6 +67,22 @@ export type SearchScreenProps = CompositeScreenProps<
 
 export type PhotoScreenProps = CompositeScreenProps<
   NativeStackScreenProps<SharedNavParamList, 'Photo'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<LoggedInNavParamList>
+  >
+>;
+
+export type ProfileScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'Profile'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<LoggedInNavParamList>
+  >
+>;
+
+export type MeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'Me'>,
   CompositeScreenProps<
     BottomTabScreenProps<TabsNavParamList>,
     NativeStackScreenProps<LoggedInNavParamList>

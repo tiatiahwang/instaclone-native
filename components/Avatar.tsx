@@ -10,15 +10,17 @@ const SAvatar = styled.Image<{ size: number }>`
 interface Props {
   src: string | null | undefined;
   size: number;
+  focused?: boolean;
 }
 
-const Avatar = ({ size, src }: Props) => {
+const Avatar = ({ size, src, focused }: Props) => {
   return (
     <SAvatar
       size={size}
       defaultSource={require('../assets/user.png')}
       source={{ uri: src !== null ? src : '../assets/user.png' }}
       resizeMode="cover"
+      style={focused && { borderColor: 'white', borderWidth: 2 }}
     />
   );
 };

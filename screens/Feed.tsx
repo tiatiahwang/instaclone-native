@@ -1,25 +1,23 @@
-import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native';
-import { logUserOut } from '../apollo/vars';
+import { FlatList, Text, View } from 'react-native';
 import { useSeeFeedQuery } from '../graphql/generated';
 import { FeedScreenProps } from '../navTypes';
+import ScreenLayout from './ScreenLayout';
 
 const Feed = ({ navigation }: FeedScreenProps) => {
-  const { data: { seeFeed } = {} } = useSeeFeedQuery();
-  console.log(seeFeed);
+  const { data = {}, loading } = useSeeFeedQuery({});
+
   return (
-    <View
-      style={{
-        backgroundColor: 'black',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <TouchableOpacity onPress={() => logUserOut()}>
-        <Text style={{ color: 'white' }}>Photo</Text>
-      </TouchableOpacity>
-    </View>
+    <ScreenLayout loading={loading}>
+      <FlatList
+        data={data?.seeFeed}
+        keyExtractor={(item) => item?.id + ''}
+        renderItem={({ item }) => (
+          <View>
+            <Text style={{ color: 'white' }}>{item?.caption}</Text>
+          </View>
+        )}
+      />
+    </ScreenLayout>
   );
 };
 

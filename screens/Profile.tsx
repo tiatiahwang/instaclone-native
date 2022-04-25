@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
+import { ProfileScreenProps } from '../navTypes';
 
-const Profile = () => {
+const Profile = ({ route }: ProfileScreenProps) => {
   return (
     <View
       style={{
@@ -10,7 +11,7 @@ const Profile = () => {
         alignItems: 'center',
       }}
     >
-      <Text style={{ color: 'white' }}>Someones Profile</Text>
+      <Text style={{ color: 'white' }}>{route.params.username}</Text>
     </View>
   );
 };

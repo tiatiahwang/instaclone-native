@@ -14,6 +14,7 @@ const Feed = ({ navigation }: FeedScreenProps) => {
         data={data?.seeFeed}
         keyExtractor={(item) => item?.id + ''}
         renderItem={({ item: photo }) => <Photo photo={photo} />}
+        showsVerticalScrollIndicator={false}
       />
     </ScreenLayout>
   );

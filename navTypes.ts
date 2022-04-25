@@ -24,13 +24,12 @@ export type CreateAccountScreenProps = NativeStackScreenProps<
 >;
 
 export type LoggedInNavParamList = {
-  TabsNav: undefined;
+  FeedTab: undefined;
+  SearchTab: undefined;
+  CameraTab: undefined;
+  NotificationsTab: undefined;
+  MeTab: undefined;
 };
-
-export type TabsNavScreenProps = NativeStackScreenProps<
-  LoggedInNavParamList,
-  'TabsNav'
->;
 
 export type TabsNavParamList = {
   FeedTab: undefined;
@@ -46,7 +45,7 @@ export type SharedNavParamList = {
   Notifications: undefined;
   Me: undefined;
   Photo: undefined;
-  Profile: undefined;
+  Profile: { username: string };
 };
 
 export type FeedScreenProps = CompositeScreenProps<

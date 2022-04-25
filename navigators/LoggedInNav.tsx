@@ -2,8 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabIcons from '../components/nav/TabIcon';
 import { View } from 'react-native';
 import SharedStackNav from './SharedStackNav';
+import { LoggedInNavParamList } from '../navTypes';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<LoggedInNavParamList>();
 
 const LoggedInNav = () => {
   return (

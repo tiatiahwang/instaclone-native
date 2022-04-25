@@ -2,12 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from '../screens/Welcome';
 import Login from '../screens/Login';
 import CreateAccount from '../screens/CreateAccount';
-
-export type LoggedOutNavParamList = {
-  Welcome: undefined;
-  Login: undefined;
-  CreateAccount: undefined;
-};
+import { LoggedOutNavParamList } from '../navTypes';
 
 const Stack = createNativeStackNavigator<LoggedOutNavParamList>();
 

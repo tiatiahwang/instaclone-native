@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
+import { SharedNavParamList } from '../navTypes';
 import Feed from '../screens/Feed';
 import Me from '../screens/Me';
 import Notifications from '../screens/Notifications';
@@ -7,7 +8,7 @@ import Photo from '../screens/Photo';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<SharedNavParamList>();
 
 interface Props {
   screenName: 'Feed' | 'Search' | 'Notifications' | 'Me';

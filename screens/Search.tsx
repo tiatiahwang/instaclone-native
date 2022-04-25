@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import DismissKeyboard from '../components/DismissKeyboard';
 import { useSearchPhotosLazyQuery } from '../graphql/generated';
@@ -12,16 +12,30 @@ const Input = styled.TextInput`
   margin: 0;
 `;
 
+const MessageContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+const MessageText = styled.Text`
+  margin-top: 15px;
+  color: white;
+  font-weight: 600;
+`;
+
 interface IForm {
   keyword: string;
 }
 
 const Search = ({ navigation }: SearchScreenProps) => {
-  const [searchQuery, { data }] = useSearchPhotosLazyQuery();
+  const [searchQuery, { data, loading, called }] = useSearchPhotosLazyQuery();
   const { control, handleSubmit } = useForm<IForm>();
-  const onValid: SubmitHandler<IForm> = ({ keyword }) => {
-    searchQuery({ variables: { keyword } });
-  };
+  const onValid: SubmitHandler<IForm> = useCallback(
+    ({ keyword }) => {
+      searchQuery({ variables: { keyword } });
+    },
+    [searchQuery],
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -46,18 +60,32 @@ const Search = ({ navigation }: SearchScreenProps) => {
         />
       ),
     });
-  }, [navigation, control, handleSubmit]);
+  }, [navigation, control, handleSubmit, onValid]);
+  console.log(data);
   return (
     <DismissKeyboard>
       <View
         style={{
-          backgroundColor: 'black',
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+          backgroundColor: 'black',
         }}
       >
-        <Text style={{ color: 'white' }}>Search</Text>
+        {loading && (
+          <MessageContainer>
+            <ActivityIndicator color="white" />
+            <MessageText>Searching...</MessageText>
+          </MessageContainer>
+        )}
+        {!called && (
+          <MessageContainer>
+            <MessageText>Search by keyword</MessageText>
+          </MessageContainer>
+        )}
+        {data && !data.searchPhotos?.length && (
+          <MessageContainer>
+            <MessageText>No result.</MessageText>
+          </MessageContainer>
+        )}
       </View>
     </DismissKeyboard>
   );

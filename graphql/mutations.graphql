@@ -31,3 +31,17 @@ mutation toggleLike($id: Int!) {
     error
   }
 }
+
+mutation followUser($username: String!) {
+  followUser(username: $username) {
+    ok
+    error
+  }
+}
+
+mutation unfollowUser($username: String!) {
+  unfollowUser(username: $username) {
+    ok
+    error
+  }
+}

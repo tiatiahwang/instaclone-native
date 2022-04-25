@@ -12,21 +12,23 @@ const authLink = setContext((_, { headers }) => {
   return { headers: { ...headers, token: tokenVar() } };
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          seeFeed: offsetLimitPagination(),
-          // {
-          //   keyArgs: false,
-          //   merge: (existing = [], incoming = []) => [...existing, ...incoming],
-          // },
-        },
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        seeFeed: offsetLimitPagination(),
+        // {
+        //   keyArgs: false,
+        //   merge: (existing = [], incoming = []) => [...existing, ...incoming],
+        // },
       },
     },
-  }),
+  },
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache,
 });
 
 export default client;

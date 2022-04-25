@@ -1,6 +1,6 @@
 import { FlatList, RefreshControl } from 'react-native';
 import { useSeeFeedQuery } from '../graphql/generated';
-import Photo from './Photo';
+import Photo from '../components/Photo';
 import ScreenLayout from './ScreenLayout';
 
 const Feed = () => {
@@ -11,7 +11,7 @@ const Feed = () => {
   return (
     <ScreenLayout loading={loading}>
       <FlatList
-        onEndReachedThreshold={0.05}
+        onEndReachedThreshold={0.02}
         onEndReached={() =>
           fetchMore({
             variables: { offset: data?.seeFeed?.length },

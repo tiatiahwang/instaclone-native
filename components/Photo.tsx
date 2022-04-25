@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { Image, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
-import Avatar from '../components/Avatar';
-import { SeeFeedQuery } from '../graphql/generated';
+import Avatar from './Avatar';
+import { SeeFeedQuery, useToggleLikeMutation } from '../graphql/generated';
 import { FeedScreenProps } from '../navTypes';
 
 const Container = styled.View``;
@@ -51,16 +51,34 @@ const Photo = ({ photo }: Props) => {
   const navigation = useNavigation<FeedScreenProps['navigation']>();
   const { width } = useWindowDimensions();
   const [imgHeight, setImgHeight] = useState(0);
+
+  const [toggleLikeMutation] = useToggleLikeMutation({
+    variables: { id: photo?.id! },
+    update: (cache, { data }) => {
+      if (!data?.toggleLike.ok || !photo) return;
+      const id = `Photo:${photo?.id!}`;
+      cache.modify({
+        id,
+        fields: {
+          isLiked: (prev) => !prev,
+          likes: (prev) => (!photo?.isLiked ? prev + 1 : prev - 1),
+        },
+      });
+    },
+  });
+
   const goToProfile = () =>
     navigation.navigate('Profile', { username: photo?.user?.username! });
   const goToLikes = () => navigation.navigate('Likes');
   const goToComments = () => navigation.navigate('Comments');
+
   useEffect(() => {
     const file = photo?.file!;
     Image.getSize(file, (w, h) => {
       setImgHeight((h * width) / w);
     });
   }, [photo]);
+
   return (
     <Container>
       <Header onPress={goToProfile}>
@@ -73,7 +91,7 @@ const Photo = ({ photo }: Props) => {
       />
       <ExtraContainer>
         <Actions>
-          <Action>
+          <Action onPress={() => toggleLikeMutation()}>
             <Ionicons
               name={photo?.isLiked ? 'heart' : 'heart-outline'}
               color={photo?.isLiked ? 'tomato' : 'white'}

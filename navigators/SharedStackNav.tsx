@@ -6,7 +6,7 @@ import Feed from '../screens/Feed';
 import Likes from '../screens/Likes';
 import Me from '../screens/Me';
 import Notifications from '../screens/Notifications';
-import Photo from '../screens/Photo';
+import Photo from '../components/Photo';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 

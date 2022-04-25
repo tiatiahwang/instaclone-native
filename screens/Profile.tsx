@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { ProfileScreenProps } from '../navTypes';
 
 const Profile = ({ route, navigation }: ProfileScreenProps) => {
+  //TODO: username 변할때 느리는 것 변경하기
   useEffect(() => {
     if (route?.params?.username) {
       navigation.setOptions({ title: route.params.username });

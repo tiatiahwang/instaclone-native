@@ -8,10 +8,13 @@ import * as Font from 'expo-font';
 import LoggedOutNav from './navigators/LoggedOutNav';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components/native';
-import { ApolloProvider } from '@apollo/client';
-import client from './apollo';
+import { ApolloProvider, useReactiveVar } from '@apollo/client';
+import client from './apollo/client';
+import { isLoggedInVar } from './apollo/vars';
+import LoggedInNav from './navigators/LoggedInNav';
 
 export default function App() {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [loading, setLoading] = useState(true);
   const onFinish = () => setLoading(false);
   const preload = async () => {
@@ -33,26 +36,12 @@ export default function App() {
       />
     );
   }
-  // const subscription = Appearance.addChangeListener(({ colorScheme }) =>
-  //   console.log(colorScheme),
-  // );
-  // const light = Appearance.getColorScheme();
+
   return (
-    // <ThemeProvider theme={light ? lightTheme : darkTheme}>
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <LoggedOutNav />
+        {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
       </NavigationContainer>
     </ApolloProvider>
-    // </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

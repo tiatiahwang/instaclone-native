@@ -20,11 +20,12 @@ const ButtonText = styled.Text`
 interface Props {
   text: string;
   isLoading?: boolean;
+  disabled?: boolean;
 }
 
-const AuthButton = ({ text, isLoading }: Props) => {
+const AuthButton = ({ text, isLoading, disabled }: Props) => {
   return (
-    <Button>
+    <Button disabled={disabled}>
       {isLoading ? (
         <ActivityIndicator color="white" />
       ) : (

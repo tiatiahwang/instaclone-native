@@ -3,10 +3,12 @@ import { useRef } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { logUserIn } from '../apollo/vars';
 import AuthButton from '../components/auth/AuthButton';
 import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
+import { useLoginMutation } from '../graphql/generated';
 
 export type LoginScreenProps = NativeStackScreenProps<
   LoggedOutNavParamList,
@@ -19,15 +21,24 @@ interface IForm {
 }
 
 const Login = ({ navigation }: LoginScreenProps) => {
-  const { control, handleSubmit } = useForm<IForm>();
-
+  const { control, handleSubmit, watch } = useForm<IForm>();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const [logInMutation, { loading }] = useLoginMutation();
 
   const onNext = (next: React.RefObject<TextInput>) => next.current?.focus();
 
   const onValid: SubmitHandler<IForm> = (data) => {
-    console.log(data);
+    if (!loading) {
+      logInMutation({
+        variables: data,
+        onCompleted: ({ login }) => {
+          if (!login.ok || !login.token) return;
+          logUserIn(login.token);
+        },
+      });
+    }
   };
 
   return (
@@ -72,7 +83,11 @@ const Login = ({ navigation }: LoginScreenProps) => {
         containerStyle={{ width: '100%' }}
         onPress={handleSubmit(onValid)}
       >
-        <AuthButton text="로그인" />
+        <AuthButton
+          text="로그인"
+          isLoading={loading}
+          disabled={!watch('username') || !watch('password')}
+        />
       </TouchableOpacity>
     </AuthLayout>
   );

@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { ProfileScreenProps } from '../navTypes';
 
-const Profile = ({ route }: ProfileScreenProps) => {
+const Profile = ({ route, navigation }: ProfileScreenProps) => {
+  useEffect(() => {
+    if (route?.params?.username) {
+      navigation.setOptions({ title: route.params.username });
+    }
+  }, []);
   return (
     <View
       style={{

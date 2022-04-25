@@ -1,6 +1,8 @@
 import { Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { FeedScreenProps } from '../navTypes';
 
-const Feed = () => {
+const Feed = ({ navigation }: FeedScreenProps) => {
   return (
     <View
       style={{
@@ -10,7 +12,9 @@ const Feed = () => {
         alignItems: 'center',
       }}
     >
-      <Text style={{ color: 'white' }}>Feed</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Photo')}>
+        <Text style={{ color: 'white' }}>Photo</Text>
+      </TouchableOpacity>
     </View>
   );
 };

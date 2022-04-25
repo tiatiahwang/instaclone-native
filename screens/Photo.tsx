@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Image, useWindowDimensions } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, useWindowDimensions, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import Avatar from '../components/Avatar';
 import { SeeFeedQuery } from '../graphql/generated';
@@ -18,14 +18,27 @@ const Username = styled.Text`
   font-weight: 600;
 `;
 const File = styled.Image``;
-const Actions = styled.View``;
-const Action = styled.TouchableOpacity``;
-const Caption = styled.View``;
+const Actions = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+const Action = styled.TouchableOpacity`
+  margin-right: 10px;
+`;
+const Caption = styled.View`
+  flex-direction: row;
+`;
 const CaptionText = styled.Text`
   color: white;
+  margin-left: 5px;
 `;
 const Likes = styled.Text`
   color: white;
+  margin: 7px 0;
+  font-weight: 600;
+`;
+const ExtraContainer = styled.View`
+  padding: 0px 10px;
 `;
 
 type ArrayElement<ArrayType extends readonly unknown[] | null | undefined> =
@@ -40,6 +53,8 @@ const Photo = ({ photo }: Props) => {
   const [imgHeight, setImgHeight] = useState(0);
   const goToProfile = () =>
     navigation.navigate('Profile', { username: photo?.user?.username! });
+  const goToLikes = () => navigation.navigate('Likes');
+  const goToComments = () => navigation.navigate('Comments');
   useEffect(() => {
     const file = photo?.file!;
     Image.getSize(file, (w, h) => {
@@ -56,23 +71,35 @@ const Photo = ({ photo }: Props) => {
         style={{ width, height: width || imgHeight }}
         source={{ uri: photo?.file }}
       />
-      <Actions>
-        <Action />
-        <Action />
-      </Actions>
-      <Likes>
-        {photo?.likes === 0
-          ? '0 like'
-          : photo?.likes === 1
-          ? '1 like'
-          : `${photo?.likes} likes`}
-      </Likes>
-      <Caption>
-        <TouchableOpacity onPress={goToProfile}>
-          <Username>{photo?.user.username}</Username>
+      <ExtraContainer>
+        <Actions>
+          <Action>
+            <Ionicons
+              name={photo?.isLiked ? 'heart' : 'heart-outline'}
+              color={photo?.isLiked ? 'tomato' : 'white'}
+              size={20}
+            />
+          </Action>
+          <Action onPress={goToComments}>
+            <Ionicons name="chatbubble-outline" color="white" size={18} />
+          </Action>
+        </Actions>
+        <TouchableOpacity onPress={goToLikes}>
+          <Likes>
+            {photo?.likes === 0
+              ? '0 like'
+              : photo?.likes === 1
+              ? '1 like'
+              : `${photo?.likes} likes`}
+          </Likes>
         </TouchableOpacity>
-        <CaptionText>{photo?.caption}</CaptionText>
-      </Caption>
+        <Caption>
+          <TouchableOpacity onPress={goToProfile}>
+            <Username>{photo?.user.username}</Username>
+          </TouchableOpacity>
+          <CaptionText>{photo?.caption}</CaptionText>
+        </Caption>
+      </ExtraContainer>
     </Container>
   );
 };

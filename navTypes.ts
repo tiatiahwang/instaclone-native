@@ -46,6 +46,8 @@ export type SharedNavParamList = {
   Me: undefined;
   Photo: undefined;
   Profile: { username: string };
+  Likes: undefined;
+  Comments: undefined;
 };
 
 export type FeedScreenProps = CompositeScreenProps<

@@ -7,7 +7,6 @@ import { logUserIn } from '../apollo/vars';
 import AuthButton from '../components/auth/AuthButton';
 import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
-import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
 import { useLoginMutation } from '../graphql/generated';
 import { LoginScreenProps } from '../navTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';

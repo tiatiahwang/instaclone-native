@@ -1,5 +1,5 @@
-query seeFeed {
-  seeFeed {
+query seeFeed($offset: Int!) {
+  seeFeed(offset: $offset) {
     ...PhotoFragment
     user {
       username

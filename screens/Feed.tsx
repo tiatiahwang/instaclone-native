@@ -1,15 +1,22 @@
 import { FlatList, RefreshControl } from 'react-native';
 import { useSeeFeedQuery } from '../graphql/generated';
-import { FeedScreenProps } from '../navTypes';
 import Photo from './Photo';
 import ScreenLayout from './ScreenLayout';
 
 const Feed = () => {
-  const { data, loading, refetch } = useSeeFeedQuery();
+  const { data, loading, refetch, fetchMore } = useSeeFeedQuery({
+    variables: { offset: 0 },
+  });
 
   return (
     <ScreenLayout loading={loading}>
       <FlatList
+        onEndReachedThreshold={0.05}
+        onEndReached={() =>
+          fetchMore({
+            variables: { offset: data?.seeFeed?.length },
+          })
+        }
         style={{ width: '100%' }}
         data={data?.seeFeed}
         keyExtractor={(item) => item?.id + ''}

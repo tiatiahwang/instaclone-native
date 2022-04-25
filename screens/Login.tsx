@@ -10,6 +10,7 @@ import { Input } from '../components/auth/AuthShared';
 import { LoggedOutNavParamList } from '../navigators/LoggedOutNav';
 import { useLoginMutation } from '../graphql/generated';
 import { LoginScreenProps } from '../navTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IForm {
   username: string;
@@ -17,9 +18,7 @@ interface IForm {
 }
 
 const Login = ({
-  route: {
-    params: { username = '', password = '' },
-  },
+  route: { params: { username = '', password = '' } = {} },
 }: LoginScreenProps) => {
   const { control, handleSubmit, watch } = useForm<IForm>({
     defaultValues: { username, password },

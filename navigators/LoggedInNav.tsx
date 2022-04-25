@@ -6,7 +6,7 @@ const Tab = createBottomTabNavigator();
 const LoggedInNav = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Feed" component={<Feed />} />
+      <Tab.Screen name="Feed" component={Feed} />
     </Tab.Navigator>
   );
 };

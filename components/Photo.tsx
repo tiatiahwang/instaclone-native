@@ -69,7 +69,7 @@ const Photo = ({ photo }: Props) => {
 
   const goToProfile = () =>
     navigation.navigate('Profile', { username: photo?.user?.username! });
-  const goToLikes = () => navigation.navigate('Likes');
+  const goToLikes = () => navigation.navigate('Likes', { id: photo?.id! });
   const goToComments = () => navigation.navigate('Comments');
 
   useEffect(() => {

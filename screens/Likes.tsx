@@ -1,17 +1,29 @@
-import { Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
+import UserRow from '../components/UserRow';
+import { useSeeLikesQuery } from '../graphql/generated';
+import { LikesScreenProps } from '../navTypes';
+import ScreenLayout from './ScreenLayout';
 
-const Likes = () => {
+const Likes = ({ route }: LikesScreenProps) => {
+  const { data, loading, refetch } = useSeeLikesQuery({
+    variables: {
+      seePhotoLikesId: route?.params?.id!,
+    },
+    skip: !route?.params?.id,
+  });
+
   return (
-    <View
-      style={{
-        backgroundColor: 'black',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Text style={{ color: 'white' }}>Likes</Text>
-    </View>
+    <ScreenLayout loading={loading}>
+      <FlatList
+        style={{ width: '100%' }}
+        data={data?.seePhotoLikes}
+        keyExtractor={(item) => item?.id + ''}
+        renderItem={({ item: user }) => <UserRow user={user} />}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={refetch} />
+        }
+      />
+    </ScreenLayout>
   );
 };
 

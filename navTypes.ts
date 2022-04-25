@@ -46,7 +46,7 @@ export type SharedNavParamList = {
   Me: undefined;
   Photo: undefined;
   Profile: { username: string };
-  Likes: undefined;
+  Likes: { id: number };
   Comments: undefined;
 };
 
@@ -84,6 +84,14 @@ export type ProfileScreenProps = CompositeScreenProps<
 
 export type MeScreenProps = CompositeScreenProps<
   NativeStackScreenProps<SharedNavParamList, 'Me'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<TabsNavParamList>,
+    NativeStackScreenProps<LoggedInNavParamList>
+  >
+>;
+
+export type LikesScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<SharedNavParamList, 'Likes'>,
   CompositeScreenProps<
     BottomTabScreenProps<TabsNavParamList>,
     NativeStackScreenProps<LoggedInNavParamList>

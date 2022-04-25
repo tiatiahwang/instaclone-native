@@ -14,3 +14,9 @@ query seeFeed($offset: Int!) {
     isLiked
   }
 }
+
+query seeLikes($seePhotoLikesId: Int!) {
+  seePhotoLikes(id: $seePhotoLikesId) {
+    ...UserFragment
+  }
+}

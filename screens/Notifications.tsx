@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 
-const Feed = () => {
+const Notifications = () => {
   return (
     <View
       style={{
@@ -10,9 +10,9 @@ const Feed = () => {
         alignItems: 'center',
       }}
     >
-      <Text style={{ color: 'white' }}>Feed</Text>
+      <Text style={{ color: 'white' }}>Notifications</Text>
     </View>
   );
 };
 
-export default Feed;
+export default Notifications;

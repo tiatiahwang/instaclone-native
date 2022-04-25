@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import UserRow from '../components/UserRow';
 import { useSeeLikesQuery } from '../graphql/generated';
 import { LikesScreenProps } from '../navTypes';

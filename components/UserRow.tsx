@@ -1,16 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
+import { colors } from '../colors';
 import { UserFragmentFragment } from '../graphql/generated';
+import { LikesScreenProps } from '../navTypes';
 import Avatar from './Avatar';
 
 const Wrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 10px;
 `;
-const Column = styled.View`
+const Column = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding: 5px 15px;
 `;
 const Username = styled.Text`
   font-weight: 600;
@@ -19,8 +22,9 @@ const Username = styled.Text`
 `;
 const FollowBtn = styled.View`
   margin-right: 10px;
-  border: 1px solid white;
-  padding: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: ${colors.blue};
 `;
 const FollowBtnText = styled.Text`
   color: white;
@@ -32,9 +36,12 @@ interface Props {
 }
 
 const UserRow = ({ user }: Props) => {
+  const navigation = useNavigation<LikesScreenProps['navigation']>();
+  const goToProfile = () =>
+    navigation.navigate('Profile', { username: user?.username! });
   return (
     <Wrapper>
-      <Column>
+      <Column onPress={goToProfile}>
         <Avatar src={user?.avatar} size={50} />
         <Username>{user?.username}</Username>
       </Column>

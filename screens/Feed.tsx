@@ -1,11 +1,11 @@
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import { useSeeFeedQuery } from '../graphql/generated';
 import { FeedScreenProps } from '../navTypes';
 import Photo from './Photo';
 import ScreenLayout from './ScreenLayout';
 
-const Feed = ({ navigation }: FeedScreenProps) => {
-  const { data, loading } = useSeeFeedQuery();
+const Feed = () => {
+  const { data, loading, refetch } = useSeeFeedQuery();
 
   return (
     <ScreenLayout loading={loading}>
@@ -15,6 +15,14 @@ const Feed = ({ navigation }: FeedScreenProps) => {
         keyExtractor={(item) => item?.id + ''}
         renderItem={({ item: photo }) => <Photo photo={photo} />}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            onRefresh={refetch}
+            refreshing={loading}
+            tintColor="white"
+            progressBackgroundColor="black"
+          />
+        }
       />
     </ScreenLayout>
   );

@@ -37,3 +37,17 @@ query searchPhotos($keyword: String!) {
     file
   }
 }
+
+query seePhoto($id: Int!) {
+  seePhoto(id: $id) {
+    ...PhotoFragment
+    user {
+      id
+      username
+      avatar
+    }
+    caption
+    isMine
+    isLiked
+  }
+}

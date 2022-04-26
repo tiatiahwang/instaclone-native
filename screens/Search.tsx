@@ -17,7 +17,6 @@ import { SearchScreenProps } from '../navTypes';
 const Input = styled.TextInput`
   background-color: rgba(255, 255, 255, 1);
   color: black;
-  width: ${({ width }) => width / 1.5}px;
   padding: 5px 10px;
   border-radius: 7px;
 `;
@@ -58,7 +57,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
           name="keyword"
           render={({ field: { onChange, value } }) => (
             <Input
-              style={{ width: width / 1.2 }}
+              style={{ width: width / 1.5 }}
               autoCorrect={false}
               value={value}
               placeholder="Search Photos"
@@ -105,7 +104,11 @@ const Search = ({ navigation }: SearchScreenProps) => {
               data={data?.searchPhotos}
               keyExtractor={(item) => item?.id + ''}
               renderItem={({ item: photo, index }) => (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Photo', { id: photo?.id! })
+                  }
+                >
                   <Image
                     source={{ uri: photo?.file }}
                     style={{

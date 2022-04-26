@@ -44,7 +44,7 @@ export type SharedNavParamList = {
   Search: undefined;
   Notifications: undefined;
   Me: undefined;
-  Photo: undefined;
+  Photo: { id: number };
   Profile: { username: string };
   Likes: { id: number };
   Comments: undefined;

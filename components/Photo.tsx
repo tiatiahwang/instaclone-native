@@ -4,7 +4,11 @@ import { Image, useWindowDimensions, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import Avatar from './Avatar';
-import { SeeFeedQuery, useToggleLikeMutation } from '../graphql/generated';
+import {
+  SeeFeedQuery,
+  SeePhotoQuery,
+  useToggleLikeMutation,
+} from '../graphql/generated';
 import { FeedScreenProps } from '../navTypes';
 
 const Container = styled.View``;
@@ -44,10 +48,11 @@ const ExtraContainer = styled.View`
 type ArrayElement<ArrayType extends readonly unknown[] | null | undefined> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 interface Props {
-  photo: ArrayElement<SeeFeedQuery['seeFeed']>;
+  photo: ArrayElement<SeeFeedQuery['seeFeed']> | SeePhotoQuery['seePhoto'];
 }
 
 const Photo = ({ photo }: Props) => {
+  console.log(photo);
   const navigation = useNavigation<FeedScreenProps['navigation']>();
   const { width } = useWindowDimensions();
   const [imgHeight, setImgHeight] = useState(0);

@@ -1,9 +1,8 @@
 import { LoggedInNavParamList } from '../navTypes';
-import useMe from '../hooks/useMe';
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabsNav from './TabsNav';
-import Upload from '../screens/Upload';
+import UploadNav from './UploadNav';
+import useMe from '../hooks/useMe';
 
 const Stack = createNativeStackNavigator<LoggedInNavParamList>();
 
@@ -16,8 +15,8 @@ const LoggedInNav = () => {
         presentation: 'modal',
       }}
     >
-      <Stack.Screen name="Tabs" component={TabsNav} />
-      <Stack.Screen name="Upload" component={Upload} />
+      <Stack.Screen name="TabsNav" component={TabsNav} />
+      <Stack.Screen name="UploadNav" component={UploadNav} />
     </Stack.Navigator>
   );
 };

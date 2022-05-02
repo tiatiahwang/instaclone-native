@@ -1,101 +1,24 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TabIcons from '../components/nav/TabIcon';
-import { View } from 'react-native';
-import SharedStackNav from './SharedStackNav';
 import { LoggedInNavParamList } from '../navTypes';
 import useMe from '../hooks/useMe';
-import Avatar from '../components/Avatar';
 
-const Tab = createBottomTabNavigator<LoggedInNavParamList>();
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TabsNav from './TabsNav';
+import Upload from '../screens/Upload';
+
+const Stack = createNativeStackNavigator<LoggedInNavParamList>();
 
 const LoggedInNav = () => {
   const { data } = useMe();
   return (
-    <Tab.Navigator
+    <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          borderTopColor: 'rgba(255, 255, 255, 0.3)',
-          backgroundColor: 'black',
-        },
-        tabBarActiveTintColor: 'white',
+        presentation: 'modal',
       }}
     >
-      <Tab.Screen
-        name="FeedTab"
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcons
-              name={'home'}
-              focusedName={'home-outline'}
-              focused={focused}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      >
-        {() => <SharedStackNav screenName="Feed" />}
-      </Tab.Screen>
-      <Tab.Screen
-        name="SearchTab"
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcons
-              name={'search'}
-              focusedName={'search-outline'}
-              focused={focused}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      >
-        {() => <SharedStackNav screenName="Search" />}
-      </Tab.Screen>
-      <Tab.Screen
-        name="CameraTab"
-        component={View}
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcons
-              name={'camera'}
-              focusedName={'camera-outline'}
-              focused={focused}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="NotificationsTab"
-        options={{
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcons
-              name={'heart'}
-              focusedName={'heart-outline'}
-              focused={focused}
-              color={color}
-              size={24}
-            />
-          ),
-        }}
-      >
-        {() => <SharedStackNav screenName="Notifications" />}
-      </Tab.Screen>
-      <Tab.Screen
-        name="MeTab"
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Avatar src={data?.me?.avatar} size={24} focused={focused} />
-          ),
-        }}
-      >
-        {() => <SharedStackNav screenName="Me" />}
-      </Tab.Screen>
-    </Tab.Navigator>
+      <Stack.Screen name="Tabs" component={TabsNav} />
+      <Stack.Screen name="Upload" component={Upload} />
+    </Stack.Navigator>
   );
 };
 

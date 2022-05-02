@@ -103,3 +103,8 @@ export type LikesScreenProps = CompositeScreenProps<
     NativeStackScreenProps<LoggedInNavParamList>
   >
 >;
+
+export type SelectPhotoNavScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<UploadNavParamList, 'SelectPhotoNav'>,
+  NativeStackScreenProps<LoggedInNavParamList>
+>;

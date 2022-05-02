@@ -8,6 +8,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../colors';
+import { SelectPhotoNavScreenProps } from '../navTypes';
 
 const Container = styled.View`
   flex: 1;
@@ -32,7 +34,13 @@ const IconContainer = styled.View`
   right: 5px;
 `;
 
-const SelectPhoto = () => {
+const HeaderRightText = styled.Text`
+  color: ${colors.blue};
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const [ok, setOk] = useState(false);
@@ -59,10 +67,19 @@ const SelectPhoto = () => {
       setPhotos(assets);
     }
   };
+  const HeaderRight = () => (
+    <TouchableOpacity>
+      <HeaderRightText>다음</HeaderRightText>
+    </TouchableOpacity>
+  );
   useEffect(() => {
     getPermissions();
   }, [ok]);
-  console.log(chosenPhoto);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: HeaderRight,
+    });
+  });
   return (
     <Container>
       <Top>
@@ -90,7 +107,11 @@ const SelectPhoto = () => {
                 }}
               />
               <IconContainer>
-                <Ionicons name="checkbox-outline" size={18} color="white" />
+                <Ionicons
+                  name="checkbox-outline"
+                  size={18}
+                  color={item.uri === chosenPhoto ? colors.blue : 'white'}
+                />
               </IconContainer>
             </ImageContainer>
           )}

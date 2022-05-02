@@ -1,6 +1,13 @@
 import * as MediaLibrary from 'expo-media-library';
 import styled from 'styled-components/native';
 import { useEffect, useState } from 'react';
+import {
+  FlatList,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const Container = styled.View`
   flex: 1;
@@ -17,9 +24,20 @@ const Bottom = styled.View`
   background-color: palevioletred;
 `;
 
+const ImageContainer = styled.TouchableOpacity``;
+
+const IconContainer = styled.View`
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+`;
+
 const SelectPhoto = () => {
+  const numColumns = 4;
+  const { width } = useWindowDimensions();
   const [ok, setOk] = useState(false);
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState<MediaLibrary.Asset[]>([]);
+  const [chosenPhoto, setChosenPhoto] = useState('');
   const getPermissions = async () => {
     const { accessPrivileges, canAskAgain } =
       await MediaLibrary.getPermissionsAsync();
@@ -27,27 +45,57 @@ const SelectPhoto = () => {
       const { accessPrivileges } = await MediaLibrary.requestPermissionsAsync();
       if (accessPrivileges !== 'none') {
         setOk(true);
+        getPhotos();
       }
     } else if (accessPrivileges !== 'none') {
       setOk(true);
+      getPhotos();
     }
   };
   const getPhotos = async () => {
     if (ok) {
-      // const albums = await MediaLibrary.getAlbumsAsync();
-      // console.log(albums);
       const { assets } = await MediaLibrary.getAssetsAsync();
-      setPhotos(assets.map((asset) => asset.uri));
+      setChosenPhoto(assets[0]?.uri);
+      setPhotos(assets);
     }
   };
   useEffect(() => {
     getPermissions();
-    getPhotos();
   }, [ok]);
+  console.log(chosenPhoto);
   return (
     <Container>
-      <Top />
-      <Bottom></Bottom>
+      <Top>
+        {chosenPhoto !== '' ? (
+          <Image
+            source={{ uri: chosenPhoto }}
+            style={{ width, height: '100%' }}
+          />
+        ) : null}
+      </Top>
+      <Bottom>
+        <FlatList
+          data={photos}
+          numColumns={numColumns}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => (
+            <ImageContainer onPress={() => setChosenPhoto(item.uri)}>
+              <Image
+                source={{ uri: item.uri }}
+                style={{
+                  width: width / numColumns,
+                  height: 100,
+                  marginBottom: 0.5,
+                  ...(index % numColumns !== 3 && { marginRight: 0.5 }),
+                }}
+              />
+              <IconContainer>
+                <Ionicons name="checkbox-outline" size={18} color="white" />
+              </IconContainer>
+            </ImageContainer>
+          )}
+        />
+      </Bottom>
     </Container>
   );
 };

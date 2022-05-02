@@ -9,7 +9,6 @@ import AuthLayout from '../components/auth/AuthLayout';
 import { Input } from '../components/auth/AuthShared';
 import { useLoginMutation } from '../graphql/generated';
 import { LoginScreenProps } from '../navTypes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IForm {
   username: string;

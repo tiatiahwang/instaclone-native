@@ -1,7 +1,7 @@
 import { RefreshControl, ScrollView } from 'react-native';
 import { useSeePhotoQuery } from '../graphql/generated';
 import { PhotoScreenProps } from '../navTypes';
-import ScreenLayout from './ScreenLayout';
+import ScreenLayout from '../components/ScreenLayout';
 import Photo from '../components/Photo';
 
 const PhotoScreen = ({ route }: PhotoScreenProps) => {

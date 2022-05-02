@@ -2,7 +2,7 @@ import { FlatList, RefreshControl } from 'react-native';
 import UserRow from '../components/UserRow';
 import { useSeeLikesQuery } from '../graphql/generated';
 import { LikesScreenProps } from '../navTypes';
-import ScreenLayout from './ScreenLayout';
+import ScreenLayout from '../components/ScreenLayout';
 
 const Likes = ({ route }: LikesScreenProps) => {
   const { data, loading, refetch } = useSeeLikesQuery({

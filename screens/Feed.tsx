@@ -1,7 +1,7 @@
 import { FlatList, RefreshControl } from 'react-native';
 import { useSeeFeedQuery } from '../graphql/generated';
 import Photo from '../components/Photo';
-import ScreenLayout from './ScreenLayout';
+import ScreenLayout from '../components/ScreenLayout';
 
 const Feed = () => {
   const { data, loading, refetch, fetchMore } = useSeeFeedQuery({

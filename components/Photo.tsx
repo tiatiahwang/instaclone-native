@@ -52,7 +52,6 @@ interface Props {
 }
 
 const Photo = ({ photo }: Props) => {
-  console.log(photo);
   const navigation = useNavigation<FeedScreenProps['navigation']>();
   const { width } = useWindowDimensions();
   const [imgHeight, setImgHeight] = useState(0);

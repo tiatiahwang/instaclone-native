@@ -41,7 +41,18 @@ interface IForm {
 }
 
 const UploadForm = ({ route, navigation }: UploadFormScreenProps) => {
-  const [uploadPhotoMutation, { loading }] = useUploadPhotoMutation();
+  const [uploadPhotoMutation, { loading }] = useUploadPhotoMutation({
+    update: (cache, { data }) => {
+      const photo = data?.uploadPhoto;
+      if (photo) {
+        cache.modify({
+          id: 'ROOT_QUERY',
+          fields: { seeFeed: (prev) => [photo, ...prev] },
+        });
+        navigation.navigate('TabsNav');
+      }
+    },
+  });
   const { control, handleSubmit } = useForm<IForm>();
   const onValid = ({ caption }: IForm) => {
     const file = new ReactNativeFile({

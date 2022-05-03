@@ -3,9 +3,10 @@ import { InMemoryCache } from '@apollo/client/cache';
 import { setContext } from '@apollo/client/link/context';
 import { offsetLimitPagination } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
+import { createUploadLink } from 'apollo-upload-client';
 import { tokenVar } from './vars';
 
-const httpLink = createHttpLink({
+const uploadHttpLink = createUploadLink({
   uri: 'http://localhost:4050/graphql',
 });
 
@@ -33,7 +34,7 @@ export const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(onErrorLink).concat(httpLink),
+  link: authLink.concat(onErrorLink).concat(uploadHttpLink),
   cache,
 });
 

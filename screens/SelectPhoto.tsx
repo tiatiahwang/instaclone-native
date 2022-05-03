@@ -44,6 +44,7 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
   const [ok, setOk] = useState(false);
   const [photos, setPhotos] = useState<MediaLibrary.Asset[]>([]);
   const [chosenPhoto, setChosenPhoto] = useState('');
+  const [photoLocal, setPhotoLocal] = useState('');
   const getPermissions = async () => {
     const { accessPrivileges, canAskAgain } =
       await MediaLibrary.getPermissionsAsync();
@@ -67,7 +68,7 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
   };
   const HeaderRight = () => (
     <TouchableOpacity
-      onPress={() => navigation.navigate('UploadForm', { file: chosenPhoto })}
+      onPress={() => navigation.navigate('UploadForm', { file: photoLocal })}
     >
       <HeaderRightText>다음</HeaderRightText>
     </TouchableOpacity>
@@ -79,7 +80,12 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  }, [navigation, photos, chosenPhoto]);
+  }, [navigation, photos, photoLocal]);
+  const choosePhoto = async (id: string) => {
+    const { localUri, uri } = await MediaLibrary.getAssetInfoAsync(id);
+    setPhotoLocal(localUri || '');
+    setChosenPhoto(uri);
+  };
   return (
     <Container>
       <Top>
@@ -96,7 +102,7 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
           numColumns={numColumns}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
-            <ImageContainer onPress={() => setChosenPhoto(item.uri)}>
+            <ImageContainer onPress={() => choosePhoto(item.id)}>
               <Image
                 source={{ uri: item.uri }}
                 style={{

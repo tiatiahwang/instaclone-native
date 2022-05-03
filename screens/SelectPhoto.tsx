@@ -18,12 +18,10 @@ const Container = styled.View`
 
 const Top = styled.View`
   flex: 1;
-  background-color: pink;
 `;
 
 const Bottom = styled.View`
   flex: 1;
-  background-color: palevioletred;
 `;
 
 const ImageContainer = styled.TouchableOpacity``;
@@ -68,7 +66,9 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
     }
   };
   const HeaderRight = () => (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('UploadForm', { file: chosenPhoto })}
+    >
       <HeaderRightText>다음</HeaderRightText>
     </TouchableOpacity>
   );
@@ -79,7 +79,7 @@ const SelectPhoto = ({ navigation }: SelectPhotoNavScreenProps) => {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  });
+  }, [navigation, photos, chosenPhoto]);
   return (
     <Container>
       <Top>

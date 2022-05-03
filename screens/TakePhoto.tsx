@@ -112,7 +112,7 @@ const TakePhoto = ({ navigation }: TakePhotoNavScreenProps) => {
     if (save) {
       await MediaLibrary.saveToLibraryAsync(takenPhoto);
     }
-    // go to upload
+    navigation.navigate('UploadForm', { file: takenPhoto });
   };
   const onUpload = () => {
     Alert.alert('사진을 저장하시겠어요?', '저장 없이 업로드도 가능해요', [
@@ -120,6 +120,7 @@ const TakePhoto = ({ navigation }: TakePhotoNavScreenProps) => {
       { text: '업로드만', onPress: () => goToUpload(false) },
     ]);
   };
+
   return (
     <Container>
       {takenPhoto === '' ? (

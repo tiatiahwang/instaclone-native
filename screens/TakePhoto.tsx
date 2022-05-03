@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
@@ -45,6 +45,8 @@ const CloseButton = styled.TouchableOpacity`
 `;
 
 const TakePhoto = ({ navigation }: TakePhotoNavScreenProps) => {
+  const camera = useRef<Camera>(null);
+  const [cameraReady, setCameraReady] = useState(false);
   const [ok, setOk] = useState(false);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
@@ -75,9 +77,27 @@ const TakePhoto = ({ navigation }: TakePhotoNavScreenProps) => {
   const onZoomValueChange = (zoom: number) => {
     setZoom(zoom);
   };
+  const onCameraReady = () => {
+    setCameraReady(true);
+  };
+  const takePhoto = async () => {
+    if (camera.current && cameraReady) {
+      const photo = await camera.current.takePictureAsync({
+        quality: 1,
+        exif: true,
+      });
+      console.log(photo);
+    }
+  };
   return (
     <Container>
-      <Camera type={cameraType} style={{ flex: 1 }} zoom={zoom}>
+      <Camera
+        type={cameraType}
+        style={{ flex: 1 }}
+        zoom={zoom}
+        ref={camera}
+        onCameraReady={onCameraReady}
+      >
         <CloseButton onPress={() => navigation.navigate('TabsNav')}>
           <Ionicons name="close" color="white" size={30} />
         </CloseButton>
@@ -94,7 +114,7 @@ const TakePhoto = ({ navigation }: TakePhotoNavScreenProps) => {
           />
         </SliderContainer>
         <ButtonsContainer>
-          <TakePhotoButton />
+          <TakePhotoButton onPress={takePhoto} />
           <ActionsContainer>
             <TouchableOpacity onPress={onFlashChange}>
               <Ionicons

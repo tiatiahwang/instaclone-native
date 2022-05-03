@@ -1,17 +1,6 @@
 query seeFeed($offset: Int!) {
   seeFeed(offset: $offset) {
-    ...PhotoFragment
-    user {
-      username
-      avatar
-    }
-    caption
-    comments {
-      ...CommentFragment
-    }
-    createdAt
-    isMine
-    isLiked
+    ...FeedFragment
   }
 }
 

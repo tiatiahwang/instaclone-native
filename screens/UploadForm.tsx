@@ -1,10 +1,12 @@
-import { Text, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { UploadFormScreenProps } from '../navTypes';
 import styled from 'styled-components/native';
 import { colors } from '../colors';
 import DismissKeyboard from '../components/DismissKeyboard';
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { ReactNativeFile } from 'apollo-upload-client';
+import { useUploadPhotoMutation } from '../graphql/generated';
 
 const Container = styled.View`
   flex: 1;
@@ -39,19 +41,38 @@ interface IForm {
 }
 
 const UploadForm = ({ route, navigation }: UploadFormScreenProps) => {
+  const [uploadPhotoMutation, { loading }] = useUploadPhotoMutation();
   const { control, handleSubmit } = useForm<IForm>();
   const onValid = ({ caption }: IForm) => {
-    console.log(caption);
+    const file = new ReactNativeFile({
+      uri: route.params.file,
+      name: '1.jpg',
+      type: 'image/jpeg',
+    });
+    uploadPhotoMutation({
+      variables: {
+        file,
+        caption,
+      },
+    });
   };
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity>
-          <HeaderRightText>다음</HeaderRightText>
-        </TouchableOpacity>
-      ),
+      headerRight: () =>
+        loading ? (
+          <ActivityIndicator
+            size="small"
+            color="white"
+            style={{ marginRight: 10 }}
+          />
+        ) : (
+          <TouchableOpacity onPress={handleSubmit(onValid)}>
+            <HeaderRightText>다음</HeaderRightText>
+          </TouchableOpacity>
+        ),
+      ...(loading && { headerLeft: () => null }),
     });
-  }, [navigation]);
+  }, [navigation, loading, handleSubmit, onValid]);
   return (
     <DismissKeyboard>
       <Container>

@@ -284,6 +284,8 @@ export type CommentFragmentFragment = { __typename?: 'Comment', id: number, payl
 
 export type UserFragmentFragment = { __typename?: 'User', id: number, username: string, avatar?: string | null, isFollowing: boolean, isMe: boolean };
 
+export type FeedFragmentFragment = { __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, isLiked: boolean, id: number, file: string, likes: number, commentNumber: number, user: { __typename?: 'User', id: number, username: string, avatar?: string | null } };
+
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -324,12 +326,20 @@ export type UnfollowUserMutationVariables = Exact<{
 
 export type UnfollowUserMutation = { __typename?: 'Mutation', unfollowUser: { __typename?: 'MutationResponse', ok: boolean, error?: string | null } };
 
+export type UploadPhotoMutationVariables = Exact<{
+  file: Scalars['Upload'];
+  caption?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UploadPhotoMutation = { __typename?: 'Mutation', uploadPhoto?: { __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, isLiked: boolean, id: number, file: string, likes: number, commentNumber: number, user: { __typename?: 'User', id: number, username: string, avatar?: string | null } } | null };
+
 export type SeeFeedQueryVariables = Exact<{
   offset: Scalars['Int'];
 }>;
 
 
-export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, isLiked: boolean, id: number, file: string, likes: number, commentNumber: number, user: { __typename?: 'User', username: string, avatar?: string | null }, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
+export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, isLiked: boolean, id: number, file: string, likes: number, commentNumber: number, user: { __typename?: 'User', id: number, username: string, avatar?: string | null } } | null> | null };
 
 export type SeeLikesQueryVariables = Exact<{
   seePhotoLikesId: Scalars['Int'];
@@ -357,14 +367,6 @@ export type SeePhotoQueryVariables = Exact<{
 
 export type SeePhotoQuery = { __typename?: 'Query', seePhoto?: { __typename?: 'Photo', caption?: string | null, isMine: boolean, isLiked: boolean, id: number, file: string, likes: number, commentNumber: number, user: { __typename?: 'User', id: number, username: string, avatar?: string | null } } | null };
 
-export const PhotoFragmentFragmentDoc = gql`
-    fragment PhotoFragment on Photo {
-  id
-  file
-  likes
-  commentNumber
-}
-    `;
 export const CommentFragmentFragmentDoc = gql`
     fragment CommentFragment on Comment {
   id
@@ -386,6 +388,28 @@ export const UserFragmentFragmentDoc = gql`
   isMe
 }
     `;
+export const PhotoFragmentFragmentDoc = gql`
+    fragment PhotoFragment on Photo {
+  id
+  file
+  likes
+  commentNumber
+}
+    `;
+export const FeedFragmentFragmentDoc = gql`
+    fragment FeedFragment on Photo {
+  ...PhotoFragment
+  user {
+    id
+    username
+    avatar
+  }
+  caption
+  createdAt
+  isMine
+  isLiked
+}
+    ${PhotoFragmentFragmentDoc}`;
 export const LoginDocument = gql`
     mutation login($username: String!, $password: String!) {
   login(username: $username, password: $password) {
@@ -568,25 +592,47 @@ export function useUnfollowUserMutation(baseOptions?: Apollo.MutationHookOptions
 export type UnfollowUserMutationHookResult = ReturnType<typeof useUnfollowUserMutation>;
 export type UnfollowUserMutationResult = Apollo.MutationResult<UnfollowUserMutation>;
 export type UnfollowUserMutationOptions = Apollo.BaseMutationOptions<UnfollowUserMutation, UnfollowUserMutationVariables>;
+export const UploadPhotoDocument = gql`
+    mutation uploadPhoto($file: Upload!, $caption: String) {
+  uploadPhoto(file: $file, caption: $caption) {
+    ...FeedFragment
+  }
+}
+    ${FeedFragmentFragmentDoc}`;
+export type UploadPhotoMutationFn = Apollo.MutationFunction<UploadPhotoMutation, UploadPhotoMutationVariables>;
+
+/**
+ * __useUploadPhotoMutation__
+ *
+ * To run a mutation, you first call `useUploadPhotoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadPhotoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadPhotoMutation, { data, loading, error }] = useUploadPhotoMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *      caption: // value for 'caption'
+ *   },
+ * });
+ */
+export function useUploadPhotoMutation(baseOptions?: Apollo.MutationHookOptions<UploadPhotoMutation, UploadPhotoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadPhotoMutation, UploadPhotoMutationVariables>(UploadPhotoDocument, options);
+      }
+export type UploadPhotoMutationHookResult = ReturnType<typeof useUploadPhotoMutation>;
+export type UploadPhotoMutationResult = Apollo.MutationResult<UploadPhotoMutation>;
+export type UploadPhotoMutationOptions = Apollo.BaseMutationOptions<UploadPhotoMutation, UploadPhotoMutationVariables>;
 export const SeeFeedDocument = gql`
     query seeFeed($offset: Int!) {
   seeFeed(offset: $offset) {
-    ...PhotoFragment
-    user {
-      username
-      avatar
-    }
-    caption
-    comments {
-      ...CommentFragment
-    }
-    createdAt
-    isMine
-    isLiked
+    ...FeedFragment
   }
 }
-    ${PhotoFragmentFragmentDoc}
-${CommentFragmentFragmentDoc}`;
+    ${FeedFragmentFragmentDoc}`;
 
 /**
  * __useSeeFeedQuery__

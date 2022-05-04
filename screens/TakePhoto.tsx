@@ -55,7 +55,7 @@ const PhotoAction = styled.TouchableOpacity`
   border-radius: 4px;
 `;
 
-const PhotoActionText = styled.View`
+const PhotoActionText = styled.Text`
   font-weight: 600;
 `;
 
